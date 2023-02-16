@@ -1,15 +1,18 @@
 <template>
-    <div>money.vue
-        <Nav />
-    </div>  
+    <div>
+        <layout>
+            <p>money.vue</p>
+        </layout>
+    </div>
 </template>
 
-<script>
+<script lang="ts">
+import Layout from '@/components/Layout.vue'
 export default {
-    name:'money',
+  components: { Layout },
+    name:'Money'
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
 </style>
