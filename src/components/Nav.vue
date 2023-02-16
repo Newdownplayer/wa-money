@@ -1,17 +1,17 @@
 <template>
   <div class="nav">
         <router-link to="/money">
-            <Icons name="money"/>
+            <Icon name="money"/>
             记账
         </router-link>
         |
         <router-link to="/labels">
-            <Icons name="labels"/>
+            <Icon name="labels"/>
             标签
         </router-link>
         |
         <router-link to="/statistics">
-            <Icons name="statistics"/>
+            <Icon name="statistics"/>
             统计
         </router-link>
     </div>
