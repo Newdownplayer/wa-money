@@ -4,3 +4,19 @@ $font-song:Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "Sou
 $font-fangsong:Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "Source Han Serif CN", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif;
 
 $color-highlight:rgb(88, 154, 185);
+
+//placeholder
+%clearFix{
+    &::after{
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+%innerShadow{
+    box-shadow:inset 0 -5px 5px -5px rgba($color: #000000, $alpha: 0.5),
+    inset 0 5px 5px -5px rgba($color: #000000, $alpha: 0.5);
+}
+%outerShadow{
+    box-shadow: 0 0 3px rgba($color: #000000, $alpha: 0.25);
+}
