@@ -7,11 +7,7 @@
 <script lang="ts">
 //导入一个目录
 let importAll = (requireContext:__WebpackModuleApi.RequireContext)=>requireContext.keys().forEach(requireContext);
-try {
-    importAll(require.context('../assets/icons', true, /\.svg$/));
-}catch(error){
-    console.log(error)
-}
+try {importAll(require.context('../assets/icons', true, /\.svg$/));}catch(error){console.log(error)}
 export default {
     props:['name'],
     name:'Icon'
