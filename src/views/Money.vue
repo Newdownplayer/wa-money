@@ -1,7 +1,7 @@
 <template>
   <layout class-prefix="layout">
     <number-pad />
-    <types xxx="这是js组件外部数据"/>
+    <types :xxx="79"/>
     <notes />
     <tags />
   </layout>
