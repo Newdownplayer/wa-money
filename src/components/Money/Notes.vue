@@ -2,15 +2,32 @@
   <div>
     <label class="notes">
       <span class="name">备注</span>
-      <input type="text" placeholder="在这里输入备注" />
+      <input
+        type="text"
+        v-model="value"
+        maxlength="24"
+        placeholder="在这里输入备注"
+      />
     </label>
   </div>
 </template>
 
-<script>
-export default {
-  name: "Notes",
-};
+<script lang="ts">
+import Vue from "vue";
+import Component from "vue-class-component";
+import { Watch } from "vue-property-decorator";
+@Component
+export default class Notes extends Vue {
+  value = "";
+  @Watch('value')
+  onValueChanged(value:string){
+    this.$emit('update:value',value)
+  }
+  onInput(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    this.value = input.value;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
