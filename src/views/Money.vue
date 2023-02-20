@@ -9,7 +9,7 @@
         @update:value="onUpdateNotes"
       />
     </div>
-    <tags :dataSource.sync="tags" @update:value="onUpdateTags" />
+    <tags />
   </layout>
 </template>
 
@@ -20,39 +20,24 @@ import Types from "@/components/Money/Types.vue";
 import FormItem from "@/components/Money/FormItem.vue";
 import Component from "vue-class-component";
 import Vue from "vue";
-import { Watch } from "vue-property-decorator";
-import recordListModel from "@/models/recordListModel";
-import tagListModel from "@/models/tagListModel";
-
-const version = window.localStorage.getItem("version") || "0";
-const recordList: RecordItem[] = recordListModel.fetch();
-const tagList = tagListModel.fetch();
-
-if (version === "0.0.1") {
-  //数据库升级，数据迁移
-  recordList.forEach((record) => {
-    record.createAt = new Date(2020, 0, 1);
-  });
-  //保存数据
-  window.localStorage.setItem("recordList", JSON.stringify(recordList));
-}
-window.localStorage.setItem("version", "0.0.2");
 
 @Component({
   components: { Tags, NumberPad, Types, FormItem },
 })
 export default class Money extends Vue {
-  tags = tagList;
-  recordList: RecordItem[] = recordList;
+  get recordList() {
+      return this.$store.state.recordList;
+    };
   record: RecordItem = {
     tags: [],
     notes: "",
     type: "-",
     amount: 0,
   };
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
+  beforeCreated(){
+    this.$store.commit('fetchRecord')
   }
+
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
@@ -60,13 +45,7 @@ export default class Money extends Vue {
     this.record.amount = parseFloat(value);
   }
   saveRecord() {
-    const record2: RecordItem = recordListModel.clone(this.record);
-    record2.createAt = new Date();
-    this.recordList.push(record2);
-  }
-  @Watch("recordList")
-  onRecordListChange() {
-    recordListModel.save(this.recordList);
+    this.$store.commit("createRecord", this.record);
   }
 }
 </script>

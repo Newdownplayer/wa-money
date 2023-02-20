@@ -1,21 +1,25 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left" />
+      <Icon class="leftIcon" name="left" @click="goBack" />
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem fieldName="标签名" placeholder="请输入标签名" />
+      <FormItem
+        :value="currentTag.name"
+        @update:value="updateTag"
+        fieldName="标签名"
+        placeholder="请输入标签名"
+      />
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="removeTag">删除标签</Button>
     </div>
   </Layout>
 </template>
 
-<script>
-import tagListModel from "@/models/tagListModel";
+<script lang='ts'>
 import Vue from "vue";
 import Component from "vue-class-component";
 import FormItem from "@/components/Money/FormItem.vue";
@@ -28,16 +32,31 @@ import Button from "@/components/Button.vue";
   },
 })
 export default class EditLabel extends Vue {
+  get currentTag(){
+    return this.$store.state.currentTag
+  }
   created() {
-    const id = this.$route.params.id;
-    tagListModel.fetch();
-    const tags = tagListModel.data;
-    const tag = tags.filter((t) => t.id === id)[0];
-    if (tag) {
-      console.log(tag);
-    } else {
+    const id=this.$route.params.id
+    this.$store.commit('fetchTags')
+    this.$store.commit('setCurrentTag',id);
+    if (!this.currentTag) {
       this.$router.replace("/404");
     }
+  }
+  updateTag(name: string) {
+    if (this.currentTag) {
+      this.$store.commit('updateTag',{id:this.currentTag.id,name:name});
+    }
+  }
+  removeTag() {
+    if (this.currentTag) {
+      this.$store.commit('removeTag',this.currentTag.id);
+      this.goBack();
+    }
+  }
+  goBack() {
+    this.$router.back();
+    this.$forceUpdate();
   }
 }
 </script>
