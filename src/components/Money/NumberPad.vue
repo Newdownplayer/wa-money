@@ -23,9 +23,12 @@
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 @Component
 export default class NumberPad extends Vue {
-  output: String = "0";
+  @Prop(Number) readonly value!: number;
+  output = this.value.toString();
+  // output: String = "0";
   inputContent(event: MouseEvent) {
     if (this.output.length === 15) {
       return;
@@ -58,8 +61,9 @@ export default class NumberPad extends Vue {
     this.output = "0";
   }
   ok() {
-    this.$emit('update:value',this.output);
-    this.$emit('submit',this.output);
+    const number=parseInt(this.output)
+    this.$emit("update:value", number);//this.$emit("update:value", this.output);
+    this.$emit("submit", number);//this.$emit("submit", this.output);
     this.output = "0";
   }
 }

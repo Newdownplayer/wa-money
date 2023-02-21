@@ -1,9 +1,9 @@
 type RecordItem = {
-  tags: string[];
+  tags: Tag[];
   notes: string;
   type: string;
   amount: number;
-  createAt?: Date;
+  createAt?: string;
 };
 type Tag = {
   id: string;
@@ -17,10 +17,19 @@ type TagListModel = {
   remove: (id: string) => boolean
   save: () => void
 }
+type DataSourceItem = {
+  text: string;
+  value: string;
+}
 type RootState = {
   recordList: RecordItem[],
   tagList: Tag[],
   currentTag?: any,
+}
+type Result={
+  title:string;
+  items:RecordItem[];
+  total?:number;
 }
 
 interface Window {
