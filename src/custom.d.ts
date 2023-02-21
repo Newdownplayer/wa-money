@@ -23,13 +23,14 @@ type DataSourceItem = {
 }
 type RootState = {
   recordList: RecordItem[],
+  createRecordError: Error | null,
   tagList: Tag[],
   currentTag?: any,
 }
-type Result={
-  title:string;
-  items:RecordItem[];
-  total?:number;
+type Result = {
+  title: string;
+  items: RecordItem[];
+  total?: number;
 }
 
 interface Window {

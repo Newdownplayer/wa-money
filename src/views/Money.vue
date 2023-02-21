@@ -1,15 +1,19 @@
 <template>
   <layout class-prefix="layout">
     <number-pad @update:value="onUpdateAmount" @submit="saveRecord" />
-    <Tabs classPreifx="type" :dataSource="recordTypeList" :value.sync="record.type" />
+    <Tabs
+      classPreifx="type"
+      :dataSource="recordTypeList"
+      :value.sync="record.type"
+    />
     <div class="notes">
       <FormItem
         fieldName="备注"
         placeholder="在这里输入备注"
-        @update:value="onUpdateNotes"
+        :value.sync="record.note"
       />
     </div>
-    <tags />
+    <tags @update:value="record.tags = $event" />
   </layout>
 </template>
 
@@ -23,7 +27,7 @@ import recordTypeList from "@/constants/recordTypeList";
 import Tabs from "@/components/Statistics/Tabs.vue";
 
 @Component({
-  components: { Tags, NumberPad, FormItem ,Tabs},
+  components: { Tags, NumberPad, FormItem, Tabs },
 })
 export default class Money extends Vue {
   get recordList() {
@@ -47,7 +51,14 @@ export default class Money extends Vue {
     this.record.amount = parseFloat(value);
   }
   saveRecord() {
+    if (!this.record.tags || this.record.tags.length === 0) {
+      return window.alert("请至少选择一个标签");
+    }
     this.$store.commit("createRecord", this.record);
+    if (this.$store.state.createRecordError) {
+      this.record.notes = "";
+      window.alert("已保存");
+    }
   }
 }
 </script>
